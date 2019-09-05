@@ -1,12 +1,10 @@
 package com.company;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.Comparator.comparingInt;
 
 public class Main {
 
@@ -223,17 +221,17 @@ public class Main {
         // sout all years separated by " * "
         System.out.println("\nsout all years sorted and separated by \" *\" ");
 
-        ArrayList<Integer> yearlist = new ArrayList();
-        for (int i=0; i<arrayList1.size(); i++){
-            String[] values = arrayList1.get(i).getDateOfBirth().split("/");
+        ArrayList yearlist = new ArrayList();
+        for (Person person : arrayList1) {
+            String[] values = person.getDateOfBirth().split("/");
             int year = Integer.parseInt(values[2]);
 
             yearlist.add(year);
         }
 
-        final Object collect2 = yearlist.stream()
-                .sorted(Comparator.comparingInt(Integer::intValue))
-                .map(a->a.toString())
+        Object collect2 = yearlist.stream()
+                .sorted(comparingInt(Integer::intValue))
+                .map(o -> o.toString())
                 .collect(Collectors.joining(" * "));
         System.out.println(collect2);
 
