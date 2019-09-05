@@ -5,10 +5,10 @@ import java.util.stream.Stream;
 
 public class Person {
 
-    String name;
-    Integer age;
-    Double kilos;
-    String dateOfBirth;
+   private String name;
+   private Integer age;
+   private Double kilos;
+   private String dateOfBirth;
 
     public Person(String name, Integer age, Double kilos, String dateOfBirth) {
         this.name = name;

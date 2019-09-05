@@ -19,47 +19,67 @@ public class Main {
 
         //max
 
-        final Integer max = arrayList.stream().max(Comparator.comparing(Integer::valueOf)).get();
+        final Integer max = arrayList.stream()
+                .max(Comparator.comparing(Integer::valueOf))
+                .get();
         System.out.println("the max number of the arrayList is: "+max);
         /** OR
          */
 
-        final int max1 = arrayList.stream().mapToInt(Integer::valueOf).summaryStatistics().getMax();
+        final int max1 = arrayList.stream()
+                .mapToInt(Integer::valueOf)
+                .summaryStatistics().getMax();
 
         // min
 
-        final Integer min = arrayList.stream().min(Comparator.comparing(Integer::valueOf)).get();
+        final Integer min = arrayList.stream()
+                .min(Comparator.comparing(Integer::valueOf))
+                .get();
         System.out.println("the min number of the arrayList is: "+min);
         /** OR
          */
 
-        final int min1 = arrayList.stream().mapToInt(Integer::valueOf).summaryStatistics().getMin();
+        final int min1 = arrayList.stream()
+                .mapToInt(Integer::valueOf)
+                .summaryStatistics()
+                .getMin();
 
 
         //average
 
-        final double average = arrayList.stream().mapToInt(Integer::valueOf).summaryStatistics().getAverage();
+        final double average = arrayList.stream()
+                .mapToInt(Integer::valueOf)
+                .summaryStatistics()
+                .getAverage();
         System.out.println("the average price of the arrayList is: "+average);
 
         //count the list items
 
-        final long count = arrayList.stream().mapToInt(Integer::valueOf).summaryStatistics().getCount();
+        final long count = arrayList.stream()
+                .mapToInt(Integer::valueOf)
+                .summaryStatistics()
+                .getCount();
         System.out.println("the count of the arrayList is: "+ count);
 
         //sum all the items of that list
 
-        final long sum = arrayList.stream().mapToInt(Integer::valueOf).summaryStatistics().getSum();
+        final long sum = arrayList.stream()
+                .mapToInt(Integer::valueOf)
+                .summaryStatistics()
+                .getSum();
         System.out.println("the sum of the arrayList's items is: "+sum);
         /** OR
          */
 
-        final Integer sum1 = arrayList.stream().reduce(Integer::sum).get();
+        final Integer sum1 = arrayList.stream()
+                .reduce(Integer::sum)
+                .get();
 
         // sort the list in descending order
         System.out.println("sort the arrayList in descending order");
         arrayList.stream()
 
-                .sorted(Collections.reverseOrder(Integer::compareTo))
+                .sorted(Collections.reverseOrder())
                 .collect(Collectors.toList())
                 .forEach(System.out::println);
 
@@ -133,6 +153,14 @@ public class Main {
                 .sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
                 .forEach(a-> System.out.println(a.getValue()));
 
+        // find the first entry
+        System.out.println("find the first entry");
+        final Optional<String> first = map.values().stream()
+                .filter(a->!a.equals("x1") && !a.equals("x2"))
+                .findFirst();
+
+        System.out.println(first);
+
         //-----------CHAPTER 3------------------
         // playing with Objects
 
@@ -154,7 +182,7 @@ public class Main {
         //order by the kilos in descending order
         System.out.println("\norder by the kilos in descending order");
         arrayList1.stream()
-                .sorted(Collections.reverseOrder(Collections.reverseOrder(Comparator.comparing(Person::getKilos))))
+                .sorted((Comparator.comparing(Person::getKilos)))
                 .collect(Collectors.toList())
                 .forEach(a-> System.out.println(a.getKilos()+"->"+a.getName()+" "+a.getDateOfBirth()+" "+a.getAge()));
 
@@ -177,6 +205,38 @@ public class Main {
         arrayList1.stream()
                 .filter(a->a.getKilos()==61.1)
                 .forEach(a-> System.out.println(a.getName()+" is "+a.getKilos()+" kilos"));
+
+        // Find out who is 20 y.o. and 50.1 kilos
+        System.out.println("\nFind out who is 20 y.o. and 50.1 kilos");
+        arrayList1.stream()
+                .filter(a-> a.getKilos()==50.1 && a.getAge()==20)
+                .forEach(a-> System.out.println(a.getName()));
+
+        //sout the Kilos separated by the " - "
+        System.out.println("\nsout the Kilos separated by the \" - \"");
+        final String collect1 = arrayList1.stream()
+                .map(Person::getKilos)
+                .map(String::valueOf)
+                .collect(Collectors.joining(" - "));
+        System.out.println(collect1);
+
+        // sout all years separated by " * "
+        System.out.println("\nsout all years sorted and separated by \" *\" ");
+
+        ArrayList<Integer> yearlist = new ArrayList();
+        for (int i=0; i<arrayList1.size(); i++){
+            String[] values = arrayList1.get(i).getDateOfBirth().split("/");
+            int year = Integer.parseInt(values[2]);
+
+            yearlist.add(year);
+        }
+
+        final Object collect2 = yearlist.stream()
+                .sorted(Comparator.comparingInt(Integer::intValue))
+                .map(a->a.toString())
+                .collect(Collectors.joining(" * "));
+        System.out.println(collect2);
+
 
     }
 }
